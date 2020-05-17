@@ -7,17 +7,16 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowTitle("Sokoban");
+    ReadRecord();
 
     num_step=0;
     mode = 0;
-
     connect(ui->StartButton, SIGNAL(clicked()), this, SLOT(on_actionStart_triggered()));
     connect(ui->ExitButton, SIGNAL(clicked()), this, SLOT(on_actionExit_triggered()));
     connect(ui->ResetButton, SIGNAL(clicked()), this, SLOT(on_actionReset_triggered()));
     connect(&sokoban, &player::send_AddStep, this, &MainWindow::AddStep);
     connect(&sokoban, &player::send_AddTStep, this, &MainWindow::AddTStep);
     connect(&sokoban, &player::send_AddScore, this, &MainWindow::AddScore);
-
 }
 
 MainWindow::~MainWindow(){
@@ -49,13 +48,35 @@ void MainWindow::AddTStep(int num){
 void MainWindow::AddScore(int num){
     score += num;
     ui->labelScore->setNum(score);
+    if (score>record){
+        record = score;
+        ui->labelRecord->setNum(record);
+        SaveRecord();
+    }
+}
+void MainWindow::ReadRecord() {
+    QFile file("./record.txt");
+    if(!file.open(QIODevice::ReadOnly)) return;
+    QTextStream in(&file);
+    QString line = in.readLine();
+    record = line.toInt();
+    ui->labelRecord->setNum(record);
+    file.close();
+}
+void MainWindow::SaveRecord() {
+    QFile file("./record.txt");
+    file.open(QIODevice::ReadWrite);
+    if(!file.open(QIODevice::WriteOnly)) return;
+    QTextStream out(&file);
+    out << record << endl;
+    file.close();
 }
 bool MainWindow::ReadMapFile(MapVec &mapData) {
     QFile file(map_filepath);
     if(!file.open(QIODevice::ReadOnly)) return false;
 
-    QTextStream *out = new QTextStream(&file);
-    QStringList temp_data = out->readAll().split("\r\n");
+    QTextStream *in = new QTextStream(&file);
+    QStringList temp_data = in->readAll().split("\r\n");
     QStringList dataList = temp_data.at(0).split(",");
 
     map_height = dataList.at(0).toInt();
@@ -121,10 +142,10 @@ void MainWindow::paintEvent(QPaintEvent *event) {
     }
 }
 void MainWindow::on_actionStart_triggered() {
+    num_step=0;score=0;
     SwitchLevel(1);
 }
 void MainWindow::on_actionExit_triggered() {
-    /*Save Record*/
     this->close();
 }
 void MainWindow::on_actionReset_triggered() {

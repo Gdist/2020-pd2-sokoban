@@ -29,6 +29,8 @@ private:
     player sokoban;
 
     int mode; //0:wating, 1:playing, 2:win
+
+    //Record
     int num_step=0; //current level steps
     int num_tstep=0; //total steps
     int score=0;
@@ -49,12 +51,17 @@ private:
     int block_width = 50;
     QPoint origin=QPoint(0, 20); //Position
 
-    //Load
-    bool ReadMapFile(MapVec &mapData);
+    //Read&Load
     QString map_filepath;
-    void LoadGame();
+    bool ReadMapFile(MapVec &mapData);
     int cur_level;
     void SwitchLevel(int level);
+    void LoadGame();
+
+    void ReadRecord();
+    void SaveRecord();
+    //void SaveStatus(); //Save Step&Score
+    //void SaveGameMap(); //Save Map
 
     //Event
     void keyPressEvent(QKeyEvent *event);
