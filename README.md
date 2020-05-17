@@ -14,7 +14,7 @@
     - Complete each level get 30 points.
 - [x] **Collection Coin** (each have 10 points)
 - [x] **Portal** for skip to next level
-- [ ] Change map items (bombs)
+- [x] Change map items (bombs)
 
 ## Bonus
 - [x] **Custom Level**
