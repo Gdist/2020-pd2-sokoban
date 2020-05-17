@@ -87,7 +87,7 @@ bool player::MoveUser(MapVec &mapData, NextData &next_data) {
 
     if (mapData[cur_row][cur_col] == 4) cur_element=3;
     else cur_element=0;
-    switch (mapData[next_row][next_col]) {
+    switch (mapData[next_row][next_col]) { //Action depend on which Next Element
         case 0: //space or coin
             mapData[cur_row][cur_col] = cur_element;
             mapData[next_row][next_col] = 2;
@@ -123,6 +123,15 @@ bool player::MoveUser(MapVec &mapData, NextData &next_data) {
         case 7: //portal
             emit send_AddScore(10);
             go_next_level = true;
+            return true;
+        case 8: //bomb
+            if (mapData[next_row+1][next_col] == -1) mapData[next_row+1][next_col] = 0;
+            if (mapData[next_row-1][next_col+1] == -1) mapData[next_row-1][next_col] = 0;
+            if (mapData[next_row][next_col+1] == -1) mapData[next_row][next_col+1] = 0;
+            if (mapData[next_row][next_col-1] == -1) mapData[next_row][next_col-1] = 0;
+            mapData[cur_row][cur_col] = cur_element;
+            mapData[next_row][next_col] = 2;
+            next_data.pos = PosData(next_row, next_col); //Save as current position
             return true;
         case -1: default: //wall or not define
             return false;

@@ -138,7 +138,7 @@ void MainWindow::paintEvent(QPaintEvent *event) {
         painter.drawImage(rect, img_cover);
     }
     else if (mode==1||mode==2){
-            //-1:wall, 0:space, 1:box, 2:user, 3:target, 4:target&user, 5:target&box, 6:coin, 7:portal, 8:bomb
+        //-1:wall, 0:space, 1:box, 2:user, 3:target, 4:target&user, 5:target&box, 6:coin, 7:portal, 8:bomb
         for (int row = 0; row < map_height; row++) {
             for (int col = 0; col < map_width; col++) {
                 QRect rect(origin.rx() + col*block_width, origin.ry() + row*block_width, block_width, block_width);
