@@ -3,7 +3,7 @@
 [https://youtu.be/u685p--MNqQ](https://youtu.be/u685p--MNqQ)
 ## How to play
     use WASD to control.
-## Features (5/6)
+## Features (6/6)
 - [x] **Main Menu** (Start game, Choose Levels, Reset game, Exit game)
 - [x] Count & Show the number of steps (Current, Total)
 - [x] **Save Game Record** (will display when next play)<br>
