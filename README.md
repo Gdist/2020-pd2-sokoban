@@ -7,9 +7,10 @@
 - [x] **Main Menu** (Start game, Choose Levels, Reset game, Exit game)
 - [x] Count & Show the number of steps (Current, Total)
 - [x] **Save Game Record** (will display when next play)<br>
-    - Each move get -1 point,
-    - Each coins have 10 points,
-    - Move on portal get 10 points,
+    - Each move get -1 point.
+    - Push each box to target will get 5 points.
+    - Each coins have 10 points.
+    - Move on portal get 10 points.
     - Complete each level get 30 points.
 - [x] **Collection Coin** (each have 10 points)
 - [x] **Portal** for skip to next level
