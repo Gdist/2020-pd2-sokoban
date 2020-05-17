@@ -1,6 +1,6 @@
 # 2020-pd2-sokoban
 ## Video link
-[https://youtu.be/u685p--MNqQ](https://youtu.be/u685p--MNqQ)
+[https://youtu.be/CjzzMgrB2TI](https://youtu.be/CjzzMgrB2TI)
 ## How to play
     use WASD to control.
 ## Features (6/6)
