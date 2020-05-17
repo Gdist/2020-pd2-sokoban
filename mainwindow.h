@@ -37,12 +37,15 @@ private:
     int record;
 
     //Image
+    QImage img_cover = QImage(":/imgs/cover.jpeg");
     QImage img_wall = QImage(":/imgs/wall.png");
     QImage img_box = QImage(":/imgs/box.png");
     QImage img_target = QImage(":/imgs/target.png");
     QImage img_tbox = QImage(":/imgs/tbox.png");
     QImage img_user = QImage(":/imgs/user.png");
     QImage img_coin = QImage(":/imgs/coin.png");
+    QImage img_portal = QImage(":/imgs/portal.png");
+    QImage img_bomb = QImage(":/imgs/bomb.png");
     QColor bg_color = QColor("#ffffff");
 
     //Map
@@ -82,7 +85,10 @@ public slots:
     void on_actionLV2_triggered();
     void on_actionLV3_triggered();
     void on_actionLV4_triggered();
-    //void on_actionLV5_triggered();
+    void on_actionLV5_triggered();
+    void on_actionDefault_triggered();
+    void on_actionBlackAndWhite_triggered();
+
 };
 
 #endif // MAINWINDOW_H

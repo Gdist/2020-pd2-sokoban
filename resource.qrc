@@ -10,6 +10,18 @@
         <file>imgs/user.png</file>
         <file>maps/level4.txt</file>
         <file>imgs/coin.png</file>
+        <file>imgs/BlackAndWhite/bomb.png</file>
+        <file>imgs/BlackAndWhite/box.png</file>
+        <file>imgs/BlackAndWhite/coin.png</file>
+        <file>imgs/BlackAndWhite/portal.png</file>
+        <file>imgs/BlackAndWhite/target.png</file>
+        <file>imgs/BlackAndWhite/tbox.png</file>
+        <file>imgs/BlackAndWhite/user.png</file>
+        <file>imgs/BlackAndWhite/wall.png</file>
+        <file>imgs/bomb.png</file>
+        <file>imgs/portal.png</file>
+        <file>maps/level5.txt</file>
+        <file>imgs/cover.jpeg</file>
     </qresource>
     <qresource prefix="/imgs"/>
 </RCC>

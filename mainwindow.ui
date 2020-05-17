@@ -203,8 +203,17 @@
     <addaction name="actionLV4"/>
     <addaction name="actionLV5"/>
    </widget>
+   <widget class="QMenu" name="menuTheme">
+    <property name="title">
+     <string>Theme</string>
+    </property>
+    <addaction name="actionDefault"/>
+    <addaction name="separator"/>
+    <addaction name="actionBlackAndWhite"/>
+   </widget>
    <addaction name="menuMenu"/>
    <addaction name="menuLV"/>
+   <addaction name="menuTheme"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionStart">
@@ -285,6 +294,16 @@
   <action name="actionReset">
    <property name="text">
     <string>Reset</string>
+   </property>
+  </action>
+  <action name="actionDefault">
+   <property name="text">
+    <string>Default</string>
+   </property>
+  </action>
+  <action name="actionBlackAndWhite">
+   <property name="text">
+    <string>BlackAndWhite</string>
    </property>
   </action>
  </widget>

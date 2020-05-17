@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     num_step=0;
     mode = 0;
+
     connect(ui->StartButton, SIGNAL(clicked()), this, SLOT(on_actionStart_triggered()));
     connect(ui->ExitButton, SIGNAL(clicked()), this, SLOT(on_actionExit_triggered()));
     connect(ui->ResetButton, SIGNAL(clicked()), this, SLOT(on_actionReset_triggered()));
@@ -31,10 +32,19 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
         default: break;
     }
     update();
-
-    if (sokoban.check_win) {
-        QMessageBox::information(this, "", "You Win! Click \"OK\" to challenge next level.");
+    if (sokoban.go_next_level) {
+        sokoban.go_next_level = false;
         SwitchLevel(++cur_level);
+    }
+    else if (sokoban.check_win) {
+        AddScore(30);
+        if (cur_level<5){
+            QMessageBox::information(this, "", "You Win! Click \"OK\" to challenge next level.");
+            SwitchLevel(++cur_level);
+        }
+        else{
+            QMessageBox::information(this, "", "You have pass all levels! Click \"ReStart\" to play again!");
+        }
     }
 }
 void MainWindow::AddStep(int num){
@@ -55,8 +65,9 @@ void MainWindow::AddScore(int num){
     }
 }
 void MainWindow::ReadRecord() {
-    QFile file("./record.txt");
-    if(!file.open(QIODevice::ReadOnly)) return;
+    QFile file("record.txt");
+    if (!file.exists()) return;
+    else if(!file.open(QIODevice::ReadOnly)) return;
     QTextStream in(&file);
     QString line = in.readLine();
     record = line.toInt();
@@ -64,8 +75,7 @@ void MainWindow::ReadRecord() {
     file.close();
 }
 void MainWindow::SaveRecord() {
-    QFile file("./record.txt");
-    file.open(QIODevice::ReadWrite);
+    QFile file("record.txt");
     if(!file.open(QIODevice::WriteOnly)) return;
     QTextStream out(&file);
     out << record << endl;
@@ -110,7 +120,7 @@ void MainWindow::SwitchLevel(int level){
         case 2: map_filepath = ":/maps/level2.txt"; break;
         case 3: map_filepath = ":/maps/level3.txt"; break;
         case 4: map_filepath = ":/maps/level4.txt"; break;
-        //case 5: map_filepath = ":/maps/level5.txt"; break;
+        case 5: map_filepath = ":/maps/level5.txt"; break;
         default: map_filepath = ":/maps/level1.txt"; break;
     }
     LoadGame();
@@ -122,8 +132,12 @@ void MainWindow::paintEvent(QPaintEvent *event) {
     painter.setBrush(QBrush(bg_color));
     painter.drawRect(QRect(origin.rx(), origin.ry(),map_width*block_width, map_height*block_width));
 
-    if (mode==1||mode==2){
-        //-1:wall, 0:space, 1:box, 2:user, 3:target, 4:target&user, 5:target&box
+    if (mode==0){
+        QRect rect(0, 20, 600, 600);
+        painter.drawImage(rect, img_cover);
+    }
+    else if (mode==1||mode==2){
+            //-1:wall, 0:space, 1:box, 2:user, 3:target, 4:target&user, 5:target&box, 6:coin, 7:portal, 8:bomb
         for (int row = 0; row < map_height; row++) {
             for (int col = 0; col < map_width; col++) {
                 QRect rect(origin.rx() + col*block_width, origin.ry() + row*block_width, block_width, block_width);
@@ -136,16 +150,21 @@ void MainWindow::paintEvent(QPaintEvent *event) {
                     case 4: painter.drawImage(rect, img_user); break;
                     case 5: painter.drawImage(rect, img_tbox); break;
                     case 6: painter.drawImage(rect, img_coin); break;
+                    case 7: painter.drawImage(rect, img_portal); break;
+                    case 8: painter.drawImage(rect, img_bomb); break;
                 }
             }
         }
     }
 }
 void MainWindow::on_actionStart_triggered() {
-    num_step=0;score=0;
+    num_tstep=0;score=0;
     SwitchLevel(1);
+    ui->StartButton->setText("ReStart");
+    AddStep(0); AddTStep(0); AddScore(0);
 }
 void MainWindow::on_actionExit_triggered() {
+    SaveRecord();
     this->close();
 }
 void MainWindow::on_actionReset_triggered() {
@@ -167,3 +186,31 @@ void MainWindow::on_actionLV3_triggered() {
 void MainWindow::on_actionLV4_triggered() {
     SwitchLevel(4);
 }
+void MainWindow::on_actionLV5_triggered() {
+    SwitchLevel(5);
+}
+void MainWindow::on_actionDefault_triggered() {
+    bg_color = QColor("#ffffff");
+    img_wall = QImage(":/imgs/wall.png");
+    img_box = QImage(":/imgs/box.png");
+    img_target = QImage(":/imgs/target.png");
+    img_tbox = QImage(":/imgs/tbox.png");
+    img_user = QImage(":/imgs/user.png");
+    img_coin = QImage(":/imgs/coin.png");
+    img_portal = QImage(":/imgs/portal.png");
+    img_bomb = QImage(":/imgs/bomb.png");
+    update();
+}
+void MainWindow::on_actionBlackAndWhite_triggered() {
+    bg_color = QColor("#ffffff");
+    img_wall = QImage(":/imgs/BlackAndWhite/wall.png");
+    img_box = QImage(":/imgs/BlackAndWhite/box.png");
+    img_target = QImage(":/imgs/BlackAndWhite/target.png");
+    img_tbox = QImage(":/imgs/BlackAndWhite/tbox.png");
+    img_user = QImage(":/imgs/BlackAndWhite/user.png");
+    img_coin = QImage(":/imgs/BlackAndWhite/coin.png");
+    img_portal = QImage(":/imgs/BlackAndWhite/portal.png");
+    img_bomb = QImage(":/imgs/BlackAndWhite/bomb.png");
+    update();
+}
+

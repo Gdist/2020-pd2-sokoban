@@ -36,16 +36,16 @@ void player::MoveStep(int direction) {
 
 bool player::updateGameMap(MapVec &mapData, NextData &next_data) {
     int cur_row = next_data.pos.row, cur_col = next_data.pos.col;
-    int pre_row, pre_col;
+    int pre_row, pre_col,pre_element;
     //Clean & Save previous user position. (Not upate new->Do in MoveMan()&MoveBox())
     for (int row = 0; row < map_height; row++) {
         for (int col = 0; col < map_width; col++) {
             if (mapData[row][col] == 2) { //find user
                 mapData[row][col] = 0; //clean
-                pre_row = row; pre_col = col; //save
+                pre_row = row; pre_col = col; pre_element=2; //save
             } else if (mapData[row][col] == 4) { //find user&target
                 mapData[row][col] = 3; //reset to target
-                pre_row = row; pre_col = col;
+                pre_row = row; pre_col = col; pre_element=4;
             }
         }
     }
@@ -69,6 +69,7 @@ bool player::updateGameMap(MapVec &mapData, NextData &next_data) {
         // Can't move & Return previous position
         if (mapData[cur_row][cur_col] == 3) mapData[cur_row][cur_col] = 4;
         else mapData[cur_row][cur_col] = 2;
+        mapData[pre_row][pre_col]=pre_element;
         return false;
     }
 }
@@ -113,11 +114,15 @@ bool player::MoveUser(MapVec &mapData, NextData &next_data) {
                 return true;
             }
             else return false;
-        case 6: //space or coin
+        case 6: //coin
             mapData[cur_row][cur_col] = cur_element;
             mapData[next_row][next_col] = 2;
             next_data.pos = PosData(next_row, next_col); //Save as current position
-            send_AddScore(10);
+            emit send_AddScore(10);
+            return true;
+        case 7: //portal
+            emit send_AddScore(10);
+            go_next_level = true;
             return true;
         case -1: default: //wall or not define
             return false;
