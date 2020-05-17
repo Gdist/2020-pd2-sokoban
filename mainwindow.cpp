@@ -123,7 +123,7 @@ void MainWindow::SwitchLevel(int level){
         case 5: map_filepath = ":/maps/level5.txt"; break;
         default: map_filepath = ":/maps/level1.txt"; break;
     }
-    LoadGame();
+    AddStep(0); LoadGame();
 }
 void MainWindow::paintEvent(QPaintEvent *event) {
     QPainter painter(this);
