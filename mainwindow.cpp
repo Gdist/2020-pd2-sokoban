@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowTitle("Sokoban");
+    this->setWindowIcon(QIcon(":/imgs/box.png"));
     ReadRecord();
 
     num_step=0;
