@@ -9,6 +9,7 @@
         <file>maps/level3.txt</file>
         <file>imgs/user.png</file>
         <file>maps/level4.txt</file>
+        <file>imgs/coin.png</file>
     </qresource>
     <qresource prefix="/imgs"/>
 </RCC>

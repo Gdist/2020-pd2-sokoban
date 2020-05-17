@@ -24,9 +24,12 @@ void player::LoadMap(MapVec mapData, int height, int width) {
 // direction: 1:up 2:down 3:left 4:right
 void player::MoveStep(int direction) {
     if (check_win) return;
-
     NextData NextData(pos_user, direction);
-    updateGameMap(gameMap, NextData);
+    if(updateGameMap(gameMap, NextData)){
+        emit send_AddStep(1);
+        emit send_AddTStep(1);
+        emit send_AddScore(-1);
+    }
     pos_user = NextData.pos; //Update user position
     check_win = CheckEnd(gameMap);
 }
@@ -56,6 +59,9 @@ bool player::updateGameMap(MapVec &mapData, NextData &next_data) {
     }
     else if (check_next == 0) mapData[cur_row][cur_col] = 2;
     else if (check_next == 3) mapData[cur_row][cur_col] = 4;
+    /*else if (check_next == 6){
+        mapData[cur_row][cur_col] = 2;
+    }*/
 
     //Get effect of move & Update if can move
     if (MoveUser(mapData, next_data)) return true;
@@ -81,7 +87,7 @@ bool player::MoveUser(MapVec &mapData, NextData &next_data) {
     if (mapData[cur_row][cur_col] == 4) cur_element=3;
     else cur_element=0;
     switch (mapData[next_row][next_col]) {
-        case 0: //space
+        case 0: //space or coin
             mapData[cur_row][cur_col] = cur_element;
             mapData[next_row][next_col] = 2;
             next_data.pos = PosData(next_row, next_col); //Save as current position
@@ -107,6 +113,12 @@ bool player::MoveUser(MapVec &mapData, NextData &next_data) {
                 return true;
             }
             else return false;
+        case 6: //space or coin
+            mapData[cur_row][cur_col] = cur_element;
+            mapData[next_row][next_col] = 2;
+            next_data.pos = PosData(next_row, next_col); //Save as current position
+            send_AddScore(10);
+            return true;
         case -1: default: //wall or not define
             return false;
         }
@@ -123,7 +135,7 @@ bool player::MoveBox(MapVec &mapData, NextData next_data) {
     //Move if next element is space or target
     switch (mapData[next_row][next_col]) {
         case 0: mapData[next_row][next_col] = 1; return true;
-        case 3: mapData[next_row][next_col] = 5; return true;
+        case 3: mapData[next_row][next_col] = 5; emit send_AddScore(5); return true;
         default: return false;
     }
 }

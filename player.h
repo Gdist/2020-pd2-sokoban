@@ -34,7 +34,7 @@ public:
     player();
 
     bool check_win = false;
-    //-1:wall, 0:space, 1:box, 2:user, 3:target, 4:target&user, 5:target&box
+    //-1:wall, 0:space, 1:box, 2:user, 3:target, 4:target&user, 5:target&box, 6:coin
     MapVec gameMap;
     //Map
     void LoadMap(MapVec mapData, int height, int width);
@@ -49,8 +49,11 @@ private:
     int map_height;
     PosData pos_user;
     int num_box; //Check for end game
-signals:
 public slots:
+signals:
+    void send_AddStep(int num);
+    void send_AddTStep(int num);
+    void send_AddScore(int num);
 
 };
 

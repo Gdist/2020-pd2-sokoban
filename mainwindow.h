@@ -29,8 +29,10 @@ private:
     player sokoban;
 
     int mode; //0:wating, 1:playing, 2:win
-    int num_step;
-    int cur_level;
+    int num_step=0; //current level steps
+    int num_tstep=0; //total steps
+    int score=0;
+    int record;
 
     //Image
     QImage img_wall = QImage(":/imgs/wall.png");
@@ -38,17 +40,20 @@ private:
     QImage img_target = QImage(":/imgs/target.png");
     QImage img_tbox = QImage(":/imgs/tbox.png");
     QImage img_user = QImage(":/imgs/user.png");
+    QImage img_coin = QImage(":/imgs/coin.png");
+    QColor bg_color = QColor("#ffffff");
 
     //Map
     int map_width;
     int map_height;
     int block_width = 50;
     QPoint origin=QPoint(0, 20); //Position
-    QString map_filepath;
 
     //Load
-    bool readMapFromFile(MapVec &mapData);
+    bool ReadMapFile(MapVec &mapData);
+    QString map_filepath;
     void LoadGame();
+    int cur_level;
     void SwitchLevel(int level);
 
     //Event
@@ -57,8 +62,11 @@ private:
 
 public slots:
     void AddStep(int num);
+    void AddTStep(int num);
+    void AddScore(int num);
+
     void on_actionStart_triggered();
-    //void on_actionReset_triggered();
+    void on_actionReset_triggered();
     void on_actionExit_triggered();
     //void on_actionLoad_triggered();
     //void on_actionSave_triggered();
