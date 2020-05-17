@@ -1,2 +1,14 @@
-<!DOCTYPE RCC>
-<RCC version="1.0"/>
+<RCC>
+    <qresource prefix="/">
+        <file>imgs/box.png</file>
+        <file>imgs/target.png</file>
+        <file>imgs/wall.png</file>
+        <file>imgs/tbox.png</file>
+        <file>maps/level1.txt</file>
+        <file>maps/level2.txt</file>
+        <file>maps/level3.txt</file>
+        <file>imgs/user.png</file>
+        <file>maps/level4.txt</file>
+    </qresource>
+    <qresource prefix="/imgs"/>
+</RCC>
